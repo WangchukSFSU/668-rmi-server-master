@@ -5,7 +5,7 @@ import java.util.Random;
 import common.CreditCard;
 import common.Payment;
 
-public class Auth {
+public class Authenticate {
 
 	/**
 	 * If payment is CreditCard, generate random number and reject ~10%

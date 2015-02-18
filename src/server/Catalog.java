@@ -9,13 +9,15 @@ import java.util.HashMap;
  */
 public class Catalog {
 
-	private static HashMap<String, ServerItem> catalog;
+	private HashMap<String, ServerItem> catalog;
 
-	public static HashMap<String, ServerItem> getCatalog() throws NullPointerException {
-		catalog = CatalogReader.readCatalogFile();
+	public Catalog() {
+		this.catalog = getCatalog();
+	}
 
+	public HashMap<String, ServerItem> getCatalog() throws NullPointerException {
 		if (catalog == null) {
-			throw new NullPointerException();
+			catalog = CatalogReader.readCatalogFile();
 		}
 
 		return catalog;
