@@ -9,15 +9,15 @@ import java.util.HashMap;
  */
 public class Catalog {
 
-	private static HashMap<String, ServerItem> items;
+	private static HashMap<String, ServerItem> catalog;
 
-	public static HashMap<String, ServerItem> getItems() throws NullPointerException {
-		items = CatalogReader.readCatalogFile();
+	public static HashMap<String, ServerItem> getCatalog() throws NullPointerException {
+		catalog = CatalogReader.readCatalogFile();
 
-		if (items == null) {
+		if (catalog == null) {
 			throw new NullPointerException();
 		}
 
-		return items;
+		return catalog;
 	}
 }
