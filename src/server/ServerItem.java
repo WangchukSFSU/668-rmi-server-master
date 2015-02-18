@@ -1,32 +1,40 @@
 package server;
 
+
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 
 import common.Item;
 
-public class ServerItem implements Item {
-
+public class ServerItem extends UnicastRemoteObject implements Item {
+	private String upc;
+	private String description;
+	private String gif;
+	private BigDecimal price;
+	
 	public ServerItem(String UPC, String description, BigDecimal price) {
-		// TODO Auto-generated constructor stub
+		this.upc = UPC;
+		this.description = description;
+		this.price = price;
 	}
 
 	@Override
 	public String getDescription() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.description;
+	
 	}
 
 	@Override
 	public BigDecimal getPrice() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.price;
 	}
 
 	@Override
 	public String getUPC() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.upc;
 	}
 
 }
+
