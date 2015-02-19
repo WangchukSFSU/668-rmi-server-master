@@ -9,11 +9,11 @@ import common.Item;
  * stored as a String.
  *
  */
-public class Catalog {
+public class ServerManager {
 
 	private HashMap<String, Item> catalog;
 
-	public Catalog() {
+	public ServerManager() {
 		this.catalog = getCatalog();
 	}
 

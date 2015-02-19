@@ -45,7 +45,7 @@ public class SalesLogWriter {
 		salesLog = storeName + '\n';
 		salesLog += '\n';
 		salesLog += padRight(customerName, DESCRIPTION_PADDING) + padLeft(date.toString() + '\n', +QUANTITY_PADDING + PRICE_PADDING);
-		Catalog catalog = new Catalog();
+		ServerManager catalog = new ServerManager();
 		for (int i = 0; i < items.size(); i++) {
 			try {
 				Item currentItem = (Item) catalog.getCatalog().get(items.get(i).getUPC());
