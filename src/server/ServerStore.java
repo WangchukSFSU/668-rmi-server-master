@@ -1,9 +1,12 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
+import common.Constants;
 import common.Customer;
 import common.Item;
 import common.Store;
@@ -14,7 +17,7 @@ import common.Store;
 public class ServerStore extends UnicastRemoteObject implements Store {
 
 	private ServerManager manager;
-	private String name; 
+	private String name;
 
 	/**
 	 *
@@ -23,6 +26,19 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	public ServerStore() throws RemoteException {
 		this.manager = new ServerManager();
 		this.name = "MyStore";
+	}
+
+	public static void main(String[] args) {
+		try {
+			ServerStore store = new ServerStore();
+
+			Registry registry = LocateRegistry.createRegistry(Constants.REGISTRY_PORT);
+			registry.rebind(Constants.STORE_ID, store);
+
+			System.out.println("Server is running");
+		} catch (RemoteException exception) {
+			exception.printStackTrace();
+		}
 	}
 
 	/**
@@ -37,17 +53,19 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	}
 
 	/**
-     * 
-     * Records the sale 
-     * @param customer sale
-     * @return true if customer sale is successfully recorded and return false 
-     * it is not recorded.
-     * @throws RemoteException
-     */
-    @Override
-    public boolean recordSale(Customer customer) throws RemoteException {
-        SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPayment());
-        return sales.writeLog();
-    }
+	 * 
+	 * Records the sale
+	 * 
+	 * @param customer
+	 *            sale
+	 * @return true if customer sale is successfully recorded and return false
+	 *         it is not recorded.
+	 * @throws RemoteException
+	 */
+	@Override
+	public boolean recordSale(Customer customer) throws RemoteException {
+		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPayment());
+		return sales.writeLog();
+	}
 
 }
