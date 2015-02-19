@@ -13,14 +13,16 @@ import common.Store;
  */
 public class ServerStore extends UnicastRemoteObject implements Store {
 
-	private Catalog catalog;
+	private ServerManager manager;
+	private String name; 
 
 	/**
 	 *
 	 * @throws RemoteException
 	 */
 	public ServerStore() throws RemoteException {
-		this.catalog = new Catalog();
+		this.manager = new ServerManager();
+		this.name = "MyStore";
 	}
 
 	/**
@@ -30,20 +32,22 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	 * @throws RemoteException
 	 */
 	@Override
-	public HashMap<String, Item> getInventory() throws RemoteException {
-		return catalog.getCatalog();
+	public HashMap<String, Item> getCatalog() throws RemoteException {
+		return manager.getCatalog();
 	}
 
 	/**
-	 * Processes Customer objects and passes customer item list to checkout.
-	 * 
-	 * @param customer objects which is ready for checkout
-	 * @return true if customer is ready for checkout and return false if there is any error in getting the item from the customer object.
-	 * @throws RemoteException
-	 */
-	@Override
-	public boolean processCustomer(Customer customer) throws RemoteException {
-		return Authenticate.authenticate(customer.getPayment());
-	}
+     * 
+     * Records the sale 
+     * @param customer sale
+     * @return true if customer sale is successfully recorded and return false 
+     * it is not recorded.
+     * @throws RemoteException
+     */
+    @Override
+    public boolean recordSale(Customer customer) throws RemoteException {
+        //TODO: record sale in sales log;
+        return true;
+    }
 
 }
