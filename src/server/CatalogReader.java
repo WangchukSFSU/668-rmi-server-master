@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import common.Item;
+
 public class CatalogReader {
 
-	private static HashMap<String, ServerItem> items;
+	private static HashMap<String, Item> items;
 	private static String filePath = "products.txt";
 	private static BufferedReader bufferedReader;
 
@@ -20,10 +22,10 @@ public class CatalogReader {
 	 * 
 	 * @return false operation ended in error
 	 */
-	public static HashMap<String, ServerItem> readCatalogFile() {
+	public static HashMap<String, Item> readCatalogFile() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filePath));
-			items = new HashMap<String, ServerItem>();
+			items = new HashMap<String, Item>();
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 			return null;

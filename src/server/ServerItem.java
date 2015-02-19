@@ -1,10 +1,8 @@
 package server;
 
-
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.RemoteException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import common.Item;
 
@@ -13,8 +11,8 @@ public class ServerItem extends UnicastRemoteObject implements Item {
 	private String description;
 	private String gif;
 	private BigDecimal price;
-	
-	public ServerItem(String UPC, String description, BigDecimal price) {
+
+	public ServerItem(String UPC, String description, BigDecimal price) throws RemoteException {
 		this.upc = UPC;
 		this.description = description;
 		this.price = price;
@@ -23,7 +21,7 @@ public class ServerItem extends UnicastRemoteObject implements Item {
 	@Override
 	public String getDescription() throws RemoteException {
 		return this.description;
-	
+
 	}
 
 	@Override
@@ -37,4 +35,3 @@ public class ServerItem extends UnicastRemoteObject implements Item {
 	}
 
 }
-
