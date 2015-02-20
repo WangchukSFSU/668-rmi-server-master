@@ -14,6 +14,7 @@ import common.CreditCard;
 import common.Item;
 import common.ItemTuple;
 import common.Payment;
+import common.PaymentType;
 
 public class SalesLogWriter {
 	private static final int DESCRIPTION_PADDING = 20;
@@ -79,6 +80,73 @@ public class SalesLogWriter {
 				salesLog += "Paid by Credit Card: " + ((CreditCard) payment).getCardNumber() + "\n";
 			}
 		} catch (RemoteException exception) {
+			exception.printStackTrace();
+			return false;
+		}
+		salesLog += "Amount Returned: " + change.toString() + '\n';
+		salesLog += '\n';
+
+		System.out.println(salesLog);
+
+		try {
+			writer.write(salesLog);
+			writer.flush();
+			writer.close();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	public static boolean writeLog(String storeName, String customerName, ArrayList<ItemTuple> items, Date date, PaymentType paymentType, BigDecimal paymentAmount) {
+		try {
+			writer = new BufferedWriter(new FileWriter("sales.log", true));
+		} catch (IOException exception) {
+			exception.printStackTrace();
+			return false;
+		}
+		String salesLog;
+		BigDecimal total = new BigDecimal(0);
+
+		salesLog = storeName + '\n';
+		salesLog += '\n';
+		salesLog += padRight(customerName, DESCRIPTION_PADDING) + padLeft(date.toString() + '\n', +QUANTITY_PADDING + PRICE_PADDING);
+		ServerManager catalog = new ServerManager();
+		for (int i = 0; i < items.size(); i++) {
+			try {
+				Item currentItem = (Item) catalog.getCatalog().get(items.get(i).getUPC());
+				total = total.add(currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())));
+				salesLog += padRight(currentItem.getDescription(), DESCRIPTION_PADDING)
+
+				+ padRight(items.get(i).getQuantity() + " @ " + currentItem.getPrice(), QUANTITY_PADDING)
+
+				+ padLeft("$" + (currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString()) + '\n', PRICE_PADDING);
+			} catch (RemoteException exception) {
+				exception.printStackTrace();
+				return false;
+			}
+		}
+
+		for (int i = 0; i < DESCRIPTION_PADDING + QUANTITY_PADDING + PRICE_PADDING; i++) {
+			salesLog += "-";
+		}
+
+		salesLog += "\n";
+		salesLog += padLeft("Total: $" + total.toString() + '\n', DESCRIPTION_PADDING + QUANTITY_PADDING + PRICE_PADDING);
+		BigDecimal change = new BigDecimal(0);
+
+		try {
+			if (paymentType == PaymentType.CASH) {
+				salesLog += "Amount Tendered: " + paymentAmount.toString() + '\n';
+				change = paymentAmount.subtract(total);
+			} else if (paymentType == PaymentType.CHECK) {
+				salesLog += "Paid by Check: " + paymentAmount.toString() + '\n';
+			} else {
+				salesLog += "Paid by Credit Card: " + paymentAmount.toString() + "\n";
+			}
+		} catch (Exception exception) {
 			exception.printStackTrace();
 			return false;
 		}

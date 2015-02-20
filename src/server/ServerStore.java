@@ -64,8 +64,9 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	 */
 	@Override
 	public boolean recordSale(Customer customer) throws RemoteException {
-		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPayment());
-		return sales.writeLog();
+		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPaymentType(), customer.getPaymentAmount());
+		System.out.println(sales.writeLog());
+		return true;
 	}
 
 }
