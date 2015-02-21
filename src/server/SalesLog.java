@@ -41,7 +41,7 @@ public class SalesLog {
 		this.paymentAmount = paymentAmount;
 	}
 
-	public boolean writeLog() {
+	public String writeLog() {
 		// return SalesLogWriter.writeLog(storeName, customerName, items,
 		// payment, date);
 		return SalesLogWriter.writeLog(storeName, customerName, items, date, paymentType, paymentAmount);

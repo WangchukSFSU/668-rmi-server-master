@@ -100,12 +100,12 @@ public class SalesLogWriter {
 		return true;
 	}
 
-	public static boolean writeLog(String storeName, String customerName, ArrayList<ItemTuple> items, Date date, PaymentType paymentType, BigDecimal paymentAmount) {
+	public static String writeLog(String storeName, String customerName, ArrayList<ItemTuple> items, Date date, PaymentType paymentType, BigDecimal paymentAmount) {
 		try {
 			writer = new BufferedWriter(new FileWriter("sales.log", true));
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			return false;
+			return "Server Error";
 		}
 		String salesLog;
 		BigDecimal total = new BigDecimal(0);
@@ -125,7 +125,7 @@ public class SalesLogWriter {
 				+ padLeft("$" + (currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString()) + '\n', PRICE_PADDING);
 			} catch (RemoteException exception) {
 				exception.printStackTrace();
-				return false;
+				return "Server Error";
 			}
 		}
 
@@ -148,7 +148,7 @@ public class SalesLogWriter {
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			return false;
+			return "Server Error";
 		}
 		salesLog += "Amount Returned: " + change.toString() + '\n';
 		salesLog += '\n';
@@ -161,10 +161,10 @@ public class SalesLogWriter {
 			writer.close();
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			return false;
+			return "Server Error";
 		}
 
-		return true;
+		return salesLog;
 	}
 
 	/**

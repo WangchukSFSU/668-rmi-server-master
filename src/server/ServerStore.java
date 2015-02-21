@@ -58,15 +58,13 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	 * 
 	 * @param customer
 	 *            sale
-	 * @return true if customer sale is successfully recorded and return false
-	 *         it is not recorded.
+	 * @return a String formatted as a Sales Receipt
 	 * @throws RemoteException
 	 */
 	@Override
-	public boolean recordSale(Customer customer) throws RemoteException {
+	public String recordSale(Customer customer) throws RemoteException {
 		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPaymentType(), customer.getPaymentAmount());
-		System.out.println(sales.writeLog());
-		return true;
+		return sales.writeLog();
 	}
 
 }
