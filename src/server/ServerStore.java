@@ -29,6 +29,10 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	}
 
 	public static void main(String[] args) {
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+
 		try {
 			ServerStore store = new ServerStore();
 
