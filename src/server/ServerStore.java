@@ -45,22 +45,23 @@ public class ServerStore extends UnicastRemoteObject implements Store {
 	}
 
 	/**
-     * @return HashMap of Item UPCs and Items
-     * @throws RemoteException
-     */
+	 * @return HashMap of Item UPCs and Items
+	 * @throws RemoteException
+	 */
 	@Override
 	public HashMap<String, Item> getCatalog() throws RemoteException {
 		return manager.getCatalog();
 	}
 
 	/**
-     * @param customer object with sale information to be recorded
-     * @return a String formatted as a Sales Receipt
-     * @throws RemoteException
-     */
+	 * @param customer
+	 *            object with sale information to be recorded
+	 * @return a String formatted as a Sales Receipt
+	 * @throws RemoteException
+	 */
 	@Override
 	public String recordSale(Customer customer) throws RemoteException {
-		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPaymentType(), customer.getPaymentAmount());
+		SalesLog sales = new SalesLog(name, customer.getName(), customer.getItems(), customer.getPayment());
 		return sales.writeLog();
 	}
 
